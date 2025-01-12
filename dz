@@ -1,0 +1,298 @@
+import React, { useState } from 'react';
+import { View, FlatList, TextInput, Text, Button, StyleSheet } from 'react-native';
+
+const App = () => {
+  return (
+    <View style={styles.container}>
+    <Task1 />
+    <Task2 />
+    <Task3 />
+    <Task4 />
+    <Task5 />
+    <Task6 />
+    <Task7 />
+    <Task8 />
+    <Task9 />
+   
+    </View>
+  );
+};
+
+const Task1 = () => {
+  const [books, setBooks] = useState(['lalala', 'fafafaf']);
+  const [newBook, setNewBook] = useState('');
+
+  const addBook = () => {
+    if (newBook.trim()) {
+      setBooks([...books, newBook]);
+      setNewBook('');
+    }
+  };
+
+  return (
+    <View style={styles.taskContainer}>
+      <Text style={styles.taskTitle}>Список улюблених книг:</Text>
+      <FlatList
+        data={books}
+        keyExtractor={(item, index) => index.toString()}
+        renderItem={({ item }) => <Text style={styles.item}>{item}</Text>}
+      />
+      <TextInput
+        value={newBook}
+        onChangeText={setNewBook}
+        placeholder="Додати книгу"
+        style={styles.input}
+      />
+      <Button title="Додати книгу" onPress={addBook} />
+    </View>
+  );
+};
+
+const Task2 = () => {
+  const [users, setUsers] = useState([{ name: 'A', age: 77 }, { name: 'B', age: 29 }]);
+  const [minAge, setMinAge] = useState('');
+
+  const filteredUsers = users.filter(user => user.age >= minAge);
+
+  return (
+    <View style={styles.taskContainer}>
+      <Text style={styles.taskTitle}>Фільтр списку користувачів:</Text>
+      <TextInput
+        value={minAge}
+        onChangeText={setMinAge}
+        placeholder="Мінімальний вік"
+        keyboardType="numeric"
+        style={styles.input}
+      />
+      <FlatList
+        data={filteredUsers}
+        keyExtractor={(item, index) => index.toString()}
+        renderItem={({ item }) => <Text style={styles.item}>{item.name} - {item.age}</Text>}
+      />
+    </View>
+  );
+};
+
+const Task3 = () => {
+  const [items, setItems] = useState(['Milk', 'Eggs', 'Bread','Butter']);
+  const [newItem, setNewItem] = useState('');
+
+  const addItem = () => {
+    if (newItem.trim()) {
+      setItems([...items, newItem]);
+      setNewItem('');
+    }
+  };
+
+  return (
+    <View style={styles.taskContainer}>
+      <Text style={styles.taskTitle}>Список покупок:</Text>
+      <FlatList
+        data={items}
+        keyExtractor={(item, index) => index.toString()}
+        renderItem={({ item, index }) => <Text style={styles.item}>{index + 1}. {item}</Text>}
+      />
+      <TextInput
+        value={newItem}
+        onChangeText={setNewItem}
+        placeholder="Додати елемент"
+        style={styles.input}
+      />
+      <Button title="Додати покупку" onPress={addItem} />
+    </View>
+  );
+};
+
+const Task4 = () => {
+  const words = [
+    { word: 'apple', translation: 'яблуко' },
+    { word: 'banana', translation: 'банан' },
+  ];
+  const [search, setSearch] = useState('');
+
+  const filteredWords = words.filter(word =>
+    word.word.toLowerCase().includes(search.toLowerCase())
+  );
+
+  return (
+    <View style={styles.taskContainer}>
+      <Text style={styles.taskTitle}>Перекладач слів:</Text>
+      <TextInput
+        value={search}
+        onChangeText={setSearch}
+        placeholder="Шукати слово"
+        style={styles.input}
+      />
+      <FlatList
+        data={filteredWords}
+        keyExtractor={(item, index) => index.toString()}
+        renderItem={({ item }) => (
+          <Text style={styles.item}>
+            {item.word} - {item.translation}
+          </Text>
+        )}
+      />
+    </View>
+  );
+};
+
+const Task5 = () => {
+  const tasks = [
+    { task: 'Buy items', category: 'Shopping' },
+    { task: 'Complete homework', category: 'Work' },
+  ];
+  const [filterCategory, setFilterCategory] = useState('');
+
+  const filteredTasks = tasks.filter(task => 
+    task.category.toLowerCase().includes(filterCategory.toLowerCase())
+  );
+
+  return (
+    <View style={styles.taskContainer}>
+      <Text style={styles.taskTitle}>Список справ із категоріями:</Text>
+      <TextInput
+        value={filterCategory}
+        onChangeText={setFilterCategory}
+        placeholder="Фільтрувати за категорією"
+        style={styles.input}
+      />
+      <FlatList
+        data={filteredTasks}
+        keyExtractor={(item, index) => index.toString()}
+        renderItem={({ item }) => (
+          <Text style={styles.item}>{item.task} - {item.category}</Text>
+        )}
+      />
+    </View>
+  );
+};
+
+const Task6 = () => {
+  const [name, setName] = useState('Enter name');
+
+  return (
+    <View style={styles.taskContainer}>
+      <Text style={styles.taskTitle}>Персоналізований привіт:</Text>
+      <TextInput
+        value={name}
+        onChangeText={setName}
+        placeholder="Введіть ім'я"
+        style={styles.input}
+      />
+      <Text style={styles.item}>Привіт, {name}!</Text>
+    </View>
+  );
+};
+
+const Task7 = () => {
+  const [grades, setGrades] = useState([]);
+  const [newGrade, setNewGrade] = useState('');
+
+  const addGrade = () => {
+    if (newGrade.trim()) {
+      setGrades([...grades, parseInt(newGrade)]);
+      setNewGrade('');
+    }
+  };
+
+  const average = grades.length > 0 ? (grades.reduce((acc, grade) => acc + grade, 0) / grades.length).toFixed(2) : 0;
+
+  return (
+    <View style={styles.taskContainer}>
+      <Text style={styles.taskTitle}>Калькулятор середнього балу:</Text>
+      <TextInput
+        value={newGrade}
+        onChangeText={setNewGrade}
+        placeholder="Введіть оцінку"
+        keyboardType="numeric"
+        style={styles.input}
+      />
+      <Button title="Додати оцінку" onPress={addGrade} />
+      <Text style={styles.item}>Середній бал: {average}</Text>
+    </View>
+  );
+};
+
+const Task8 = () => {
+  const [contacts, setContacts] = useState([{ name: 'C', phone: '123456' }]);
+  const [newContact, setNewContact] = useState('');
+
+  const addContact = () => {
+    if (newContact.trim()) {
+      setContacts([...contacts, { name: newContact, phone: 'Unknown' }]);
+      setNewContact('');
+    }
+  };
+
+  return (
+    <View style={styles.taskContainer}>
+      <Text style={styles.taskTitle}>Менеджер контактів:</Text>
+      <FlatList
+        data={contacts}
+        keyExtractor={(item, index) => index.toString()}
+        renderItem={({ item }) => (
+          <Text style={styles.item}>{item.name} - {item.phone}</Text>
+        )}
+      />
+      <TextInput
+        value={newContact}
+        onChangeText={setNewContact}
+        placeholder="Додати контакт"
+        style={styles.input}
+      />
+      <Button title="Додати контакт" onPress={addContact} />
+    </View>
+  );
+};
+
+const Task9 = () => {
+  const [numbers, setNumbers] = useState([2, 3,1, 4]);
+
+  const sortNumbers = (order) => {
+    setNumbers([...numbers].sort((a, b) => order === 'asc' ? a - b : b - a));
+  };
+
+  return (
+    <View style={styles.taskContainer}>
+      <Text style={styles.taskTitle}>Сортувальник даних:</Text>
+      <FlatList
+        data={numbers}
+        keyExtractor={(item, index) => index.toString()}
+        renderItem={({ item }) => <Text style={styles.item}>{item}</Text>}
+      />
+      <Button title="Сортувати за зростанням" onPress={() => sortNumbers('asc')} />
+      <Button title="Сортувати за спаданням" onPress={() => sortNumbers('desc')} />
+    </View>
+  );
+};
+
+
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    padding: 20,
+    backgroundColor: '#fff',
+  },
+  taskContainer: {
+    marginBottom: 20,
+  },
+  taskTitle: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    marginBottom: 10,
+  },
+  input: {
+    borderColor: '#ccc',
+    borderWidth: 1,
+    padding: 10,
+    marginBottom: 10,
+    borderRadius: 5,
+  },
+  item: {
+    fontSize: 16,
+    padding: 5,
+  },
+});
+
+export default App;
